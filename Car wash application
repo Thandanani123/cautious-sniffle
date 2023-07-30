@@ -1,0 +1,78 @@
+# Car Wash Application
+
+## Features
+- List of car wash services
+- Schedule a car wash service
+- Cancel a scheduled car wash service
+
+## Data Model
+- Car wash service:
+  - id
+  - name
+  - description
+  - price
+  - duration
+
+- Scheduled car wash service:
+  - id
+  - customer name
+  - car model
+  - service id
+  - scheduled date and time
+
+## Code
+
+### List of car wash services
+services = [
+    {"id": 1, "name": "Basic Wash", "description": "Exterior wash and dry", "price": 20, "duration": 30},
+    {"id": 2, "name": "Standard Wash", "description": "Exterior wash, dry, and wax", "price": 40, "duration": 60},
+    {"id": 3, "name": "Premium Wash", "description": "Exterior and interior wash, dry, wax, and detailing", "price": 100, "duration": 120}
+]
+
+### Schedule a car wash service
+def schedule_service(customer_name, car_model, service_id, scheduled_datetime):
+    # Check if the service id is valid
+    service = None
+    for s in services:
+        if s["id"] == service_id:
+            service = s
+            break
+    if not service:
+        return "Invalid service id"
+    
+    # Check if the scheduled datetime is available
+    for s in scheduled_services:
+        if s["scheduled_datetime"] == scheduled_datetime:
+            return "The selected date and time is not available"
+    
+    # Add the scheduled service to the list
+    scheduled_services.append({
+        "id": len(scheduled_services) + 1,
+        "customer_name": customer_name,
+        "car_model": car_model,
+        "service_id": service_id,
+        "scheduled_datetime": scheduled_datetime
+    })
+    
+    return "Service scheduled successfully"
+
+### Cancel a scheduled car wash service
+def cancel_service(service_id):
+    for s in scheduled_services:
+        if s["id"] == service_id:
+            scheduled_services.remove(s)
+            return "Service cancelled successfully"
+    
+    return "Invalid service id"
+
+### Main program
+scheduled_services = []
+
+# Schedule a service
+print(schedule_service("John Doe", "Toyota Camry", 1, "2023-08-01 10:00"))
+print(schedule_service("Jane Doe", "Honda Civic", 2, "2023-08-03 14:00"))
+print(schedule_service("Bob Smith", "Ford Mustang", 3, "2023-08-05 16:00"))
+
+# Cancel a service
+print(cancel_service(2))
+
